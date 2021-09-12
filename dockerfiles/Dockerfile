@@ -72,11 +72,11 @@ RUN mkdir /home/user/gazebo/src && \
 RUN vcs import src < gazebo11.yaml
 RUN colcon metadata add default https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
     colcon metadata update
-RUN MAKEFLAGS="-j 4" colcon build
-
-# Cleanup
-WORKDIR /home/user
-RUN rm -r dart/build && rm -r nlopt/build && rm -r pagmo2/build && rm -r gazebo/build
+RUN MAKEFLAGS="-j 4" colcon build && \
+    rm -r /home/user/dart/build && \
+    rm -r /home/user/nlopt/build && \
+    rm -r /home/user/pagmo2/build && \
+    rm -r /home/user/gazebo/build
 
 # Setup Gazebo11
 RUN echo "source /home/user/gazebo/install/local_setup.bash" >> ~/.bashrc
