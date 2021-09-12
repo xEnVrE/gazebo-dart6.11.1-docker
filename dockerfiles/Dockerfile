@@ -74,6 +74,10 @@ RUN colcon metadata add default https://raw.githubusercontent.com/colcon/colcon-
     colcon metadata update
 RUN MAKEFLAGS="-j 4" colcon build
 
+# Cleanup
+WORKDIR /home/user
+RUN rm -r dart/build && rm -r nlopt/build && rm -r pagmo2/build && rm -r gazebo/build
+
 # Setup Gazebo11
 RUN echo "source /home/user/gazebo/install/local_setup.bash" >> ~/.bashrc
 
