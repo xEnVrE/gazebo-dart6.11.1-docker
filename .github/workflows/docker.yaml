@@ -1,0 +1,21 @@
+name: Publish Docker Image
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'Dockerfile'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@main
+      with:
+        name: xenvre/gazebo-dart6.11.1-docker
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        workdir: dockerfiles
+        registry: ghcr.io
