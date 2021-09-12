@@ -20,3 +20,7 @@ In order to use it please proceed as follows:
     ```console
     docker run -it --user user --env="DISPLAY" --net=host --device /dev/dri ghcr.io/xenvre/gazebo-dart6.11.1-docker:latest
     ```
+1. Run Gazebo:
+    ```console
+    gazebo -edart
+    ```
