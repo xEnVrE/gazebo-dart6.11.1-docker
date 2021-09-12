@@ -19,13 +19,15 @@ RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
 # Install essentials
-RUN apt install --no-install-recommends -y -qq build-essential ca-certificates cmake cmake-curses-gui curl emacs-nox git glmark2 gnupg2 htop iputils-ping lsb-release mesa-utils nano psmisc sudo unzip vim wget
+RUN apt install --no-install-recommends -y -qq build-essential ca-certificates cmake cmake-curses-gui curl emacs-nox git glmark2 gnupg2 htop iputils-ping lsb-release mesa-utils nano psmisc sudo unzip vim wget && \
+    rm -rf /var/lib/apt/lists/*
 
 # Gazebo and related dependencies
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 RUN apt update
-RUN apt install --no-install-recommends -y -qq coinor-libipopt-dev freeglut3-dev graphviz libassimp-dev libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev libboost-all-dev libbullet-dev libccd-dev libcurl4-openssl-dev libeigen3-dev libfcl-dev libfreeimage-dev libgdal-dev libgts-dev libignition-tools-dev libjsoncpp-dev liboctomap-dev libode-dev libogre-1.9-dev libopenal-dev libprotobuf-dev libprotoc-dev libqwt-qt5-dev libqt5opengl5-dev libsimbody-dev libsqlite3-dev libswscale-dev libtinyxml2-dev libtar libtar-dev libtbb-dev liburdfdom-dev libxi-dev libxmu-dev libxslt1.1 libyaml-dev libzip-dev libzmq3-dev pkg-config protobuf-compiler python3-colcon-common-extensions python3-vcstool qt5-default ruby ruby-dev ruby-ffi swig xsltproc
+RUN apt install --no-install-recommends -y -qq coinor-libipopt-dev freeglut3-dev graphviz libassimp-dev libavcodec-dev libavdevice-dev libavformat-dev libavutil-dev libboost-all-dev libbullet-dev libccd-dev libcurl4-openssl-dev libeigen3-dev libfcl-dev libfreeimage-dev libgdal-dev libgts-dev libignition-tools-dev libjsoncpp-dev liboctomap-dev libode-dev libogre-1.9-dev libopenal-dev libprotobuf-dev libprotoc-dev libqwt-qt5-dev libqt5opengl5-dev libsimbody-dev libsqlite3-dev libswscale-dev libtinyxml2-dev libtar libtar-dev libtbb-dev liburdfdom-dev libxi-dev libxmu-dev libxslt1.1 libyaml-dev libzip-dev libzmq3-dev pkg-config protobuf-compiler python3-colcon-common-extensions python3-vcstool qt5-default ruby ruby-dev ruby-ffi swig xsltproc && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create user with passwordless sudo
 RUN useradd -l -G sudo -md /home/user -s /bin/bash -p user user
@@ -46,7 +48,8 @@ RUN git clone https://github.com/stevengj/nlopt.git && \
     cd build && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/home/user/install && \
     make && \
-    make install
+    make install && \
+    rm -r /home/user/nlopt
 
 RUN git clone https://github.com/esa/pagmo2.git && \
     cd pagmo2 && \
@@ -54,7 +57,8 @@ RUN git clone https://github.com/esa/pagmo2.git && \
     cd build && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/home/user/install -DPAGMO_WITH_EIGEN3=ON -DPAGMO_WITH_NLOPT=ON -DPAGMO_WITH_IPOPT=ON && \
     make && \
-    make install
+    make install && \
+    rm -r /home/user/pagmo2
 
 RUN git clone https://github.com/dartsim/dart && \
     cd dart && \
@@ -63,7 +67,8 @@ RUN git clone https://github.com/dartsim/dart && \
     cd build && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/home/user/install && \
     make && \
-    make install
+    make install && \
+    rm -r /home/user/dart
 
 RUN mkdir /home/user/gazebo
 WORKDIR /home/user/gazebo
@@ -73,9 +78,7 @@ RUN vcs import src < gazebo11.yaml
 RUN colcon metadata add default https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
     colcon metadata update
 RUN MAKEFLAGS="-j 4" colcon build && \
-    rm -r /home/user/dart/build && \
-    rm -r /home/user/nlopt/build && \
-    rm -r /home/user/pagmo2/build && \
+    rm -r /home/user/gazebo/src && \
     rm -r /home/user/gazebo/build
 
 # Setup Gazebo11
