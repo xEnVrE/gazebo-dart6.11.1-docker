@@ -18,5 +18,5 @@ In order to use it please proceed as follows:
     ```
 1. Launch the container:
     ```console
-    docker run -it --user user --env="DISPLAY" --net=host --device /dev/dri ghcr.io/robotology/mask-ukf:latest
+    docker run -it --user user --env="DISPLAY" --net=host --device /dev/dri ghcr.io/xenvre/gazebo-dart6.11.1-docker:latest
     ```
