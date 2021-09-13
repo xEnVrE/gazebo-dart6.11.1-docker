@@ -4,9 +4,9 @@
 
 Dockerfile and image for Gazebo11 + DART 6.11.1 **with support for friction coefficients**.
 
-Latest Ubuntu (including 21.10) provides `Gazebo 11.1.0` still lacking support for `mu1` and `mu2` surface friction coefficients  when using `DART` (it has been introduced in `Gazebo 11.4.0` with [this PR](https://github.com/osrf/gazebo/pull/2781) and requires compiling against `libdart >= 6.10`).
+Latest Ubuntu (21.10) provides `Gazebo 11.1.0` which still lacks support for `mu1` and `mu2` surface friction coefficients  when using `DART` (it has been introduced in `Gazebo 11.4.0` with [this PR](https://github.com/osrf/gazebo/pull/2781) and requires compiling against `libdart >= 6.10`).
 
-The latest [Dockerfile](https://github.com/osrf/docker_images/blob/1b0072a315610a6e009bcf09343d79255933cbb2/gazebo/11/ubuntu/focal/gzserver11/Dockerfile) from `OSRF` provides `Gazebo 11.8.1` but [seems to be compiled with `libdart 6.9.2`](https://github.com/docker-library/repo-info/blob/master/repos/gazebo/local/libgazebo11-focal.md#dpkg-source-package-dart692-2build4).
+The latest [Dockerfile](https://github.com/osrf/docker_images/blob/1b0072a315610a6e009bcf09343d79255933cbb2/gazebo/11/ubuntu/focal/gzserver11/Dockerfile) from `OSRF` provides `Gazebo 11.8.1` but [seems to be compiled with `libdart 6.9.2`](https://github.com/docker-library/repo-info/blob/master/repos/gazebo/local/libgazebo11-focal.md#dpkg-source-package-dart692-2build4). Same for the `.deb` packages from `http://packages.osrfoundation.org/gazebo`.
 
 This repository provides a Dockerfile (and associated image hosted in the GitHub `ghcr` registry) with Gazebo compiled against `libdart 6.11.1` within `Ubuntu 20.04`.
 
