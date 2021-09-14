@@ -22,5 +22,5 @@ In order to use it please proceed as follows:
     ```
 1. Run Gazebo:
     ```console
-    gazebo -edart
+    gazebo -e dart
     ```
